@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para Ingrid ❤️</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    font-family: 'Georgia', serif;
+    color:white;
+    overflow:hidden;
+    background: linear-gradient(-45deg,#ff416c,#ff4b2b,#ff6a88,#ff99ac);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+button{
+    padding:15px 40px;
+    font-size:20px;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:#ff416c;
+    cursor:pointer;
+}
+
+#startScreen{
+    position:absolute;
+}
+
+.hidden{ display:none; }
+
+#text{
+    max-width:800px;
+    font-size:24px;
+    line-height:1.6;
+    padding:20px;
+}
+
+.heart{
+    position:absolute;
+    animation: float 7s linear infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(100vh);opacity:0;}
+    50%{opacity:1;}
+    100%{transform:translateY(-10vh);opacity:0;}
+}
+
+@keyframes floatPig{
+    0%{transform: translateY(0);}
+    50%{transform: translateY(-20px);}
+    100%{transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="startScreen">
+    <h2>Prepárate, Ingrid 💖</h2>
+    <button onclick="start()">Comenzar</button>
+</div>
+
+<div id="content" class="hidden">
+    <div id="text"></div>
+</div>
+
+<audio id="music" src="musica.mp3" loop></audio>
+
+<script>
+
+const message = `
+Feliz San Valentín, mi vida.
+
+Si el amor tuviera nombre, llevaría el tuyo.
+Porque desde que llegaste a mi vida, todo cambió:
+mis pensamientos te buscan,
+mis planes te incluyen,
+y mi corazón late diferente cuando estás cerca.
+
+No eres solo la mujer que amo,
+eres mi deseo constante,
+mi paz después de un día difícil,
+mi inspiración silenciosa
+y mi locura favorita.
+
+Contigo el amor no es rutina,
+es fuego que se mantiene vivo,
+es mirarnos y entendernos sin hablar,
+es sentir que el mundo puede esperar
+mientras tú y yo existimos en nuestro propio universo.
+
+Hoy te celebro a ti,
+a lo que somos
+y a todo lo que aún nos falta vivir.
+
+Y si me preguntan qué quiero para siempre…
+
+TÚ.
+
+— Tu Oliver ❤️
+`;
+
+function start(){
+    document.getElementById("startScreen").classList.add("hidden");
+    document.getElementById("content").classList.remove("hidden");
+    document.getElementById("music").play().catch(()=>{});
+    createHearts();
+    countdown();
+}
+
+function createHearts(){
+    setInterval(()=>{
+        let heart = document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.fontSize=(Math.random()*20+20)+"px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),7000);
+    },600);
+}
+
+function countdown(){
+    let text=document.getElementById("text");
+    let count=3;
+    text.innerHTML="<h1>"+count+"</h1>";
+    let interval=setInterval(()=>{
+        count--;
+        if(count>0){
+            text.innerHTML="<h1>"+count+"</h1>";
+        }else{
+            clearInterval(interval);
+            revealName();
+        }
+    },1000);
+}
+
+function revealName(){
+    let text=document.getElementById("text");
+    text.innerHTML="<h1>INGRID ❤️</h1>";
+    setTimeout(()=>{
+        document.getElementById("text").innerHTML="";
+        typeWriter(message, 0);
+    },3000);
+}
+
+function typeWriter(text, i){
+    if(i < text.length){
+
+        let displayText = text.substring(0, i+1);
+
+        displayText = displayText.replace(
+            "Feliz San Valentín, mi vida.",
+            "<span style='font-size:34px;font-weight:bold;'>Feliz San Valentín, mi vida.</span>"
+        );
+
+        document.getElementById("text").innerHTML =
+            displayText.replace(/\n/g, "<br>");
+
+        setTimeout(()=> typeWriter(text, i+1), 100);
+
+    }else{
+        setTimeout(finalScreen, 10000);
+    }
+}
+
+function finalScreen(){
+
+    document.body.style.animation = "none";
+    document.body.style.background = "black";
+
+    document.getElementById("text").innerHTML = "";
+
+    setTimeout(()=>{
+        document.getElementById("text").innerHTML =
+        "<h1 style='font-size:40px;'>Siempre serás mi elección.</h1>";
+    },1000);
+
+    setTimeout(()=>{
+        romanticPigs();
+    },5000);
+}
+
+function romanticPigs(){
+
+    document.body.style.background =
+    "linear-gradient(-45deg,#ff416c,#ff4b2b,#ff6a88,#ff99ac)";
+    document.body.style.backgroundSize = "400% 400%";
+    document.body.style.animation = "gradient 15s ease infinite";
+
+    document.getElementById("text").innerHTML =
+    "<h1 style='font-size:55px;'>TE AMO MI GORDITA 💖🐷</h1>";
+
+    for(let i=0;i<20;i++){
+        let pig = document.createElement("div");
+        pig.innerHTML = "💖🐷";
+        pig.style.position = "absolute";
+        pig.style.left = Math.random()*100 + "vw";
+        pig.style.top = Math.random()*100 + "vh";
+        pig.style.fontSize = (Math.random()*30+40)+"px";
+        pig.style.animation = "floatPig 4s ease-in-out infinite";
+        document.body.appendChild(pig);
+    }
+}
+
+</script>
+
+</body>
+</html>
